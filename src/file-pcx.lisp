@@ -15,9 +15,7 @@
 
 (in-package :imago)
 
-(defun read-pcx (filespec)
-  (with-open-file (stream filespec :direction :input
-                   :element-type '(unsigned-byte 8))
+(defun read-pcx (stream)
     ;; Read header.
     (let* ((manufacturer (read-byte stream))
            (version (read-byte stream))
@@ -77,7 +75,7 @@
           (4 (pcx-ega-palette->colormap ega-palette (image-colormap image)))
           (8 (read-pcx-vga-palette stream image)))
 
-        image))))
+        image)))
 
 ;; Note that bytes per line is bytes per plane per scanline.
 (defun read-pcx-data (stream image color-planes bytes-per-line)
